@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:provider/provider.dart';
 import 'package:walkoftoday/bottomnavi.dart';
 import 'package:walkoftoday/mainScreen.dart';
 
@@ -23,7 +24,7 @@ void main() async {
   //       }
   //     });
 
-  runApp(const WalkOfToday());
+  runApp(WalkOfToday());
 }
 
 class WalkOfToday extends StatefulWidget {
@@ -35,12 +36,12 @@ class WalkOfToday extends StatefulWidget {
 
 class _WalkOfTodayState extends State<WalkOfToday> {
 
-  List<Widget> naviScreen = [MainScreen(),NaviSave()];
   int current_index = 0;
+  int cnt = 0;
 
-  void _onTabChanged(int index){
+  void onChange(int index){
     setState(() {
-      current_index = index;
+      cnt = index;
     });
   }
 
@@ -48,8 +49,8 @@ class _WalkOfTodayState extends State<WalkOfToday> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        body: naviScreen[current_index],
-        bottomNavigationBar: BottomNavi(current_index: current_index,onTabChanged: _onTabChanged,),
+        body: MainScreen(cnt: cnt,),
+        bottomNavigationBar: BottomNavi(current_index: current_index,onChange: onChange,),
       ),
     );
   }
