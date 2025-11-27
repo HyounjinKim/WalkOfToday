@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:walkoftoday/Permission/permission.dart';
 import 'package:walkoftoday/permissionGate.dart';
 import 'package:walkoftoday/routerPage.dart';
@@ -60,5 +61,10 @@ class _SplashPageState extends State<SplashPage> {
           }
         });
 
+    bool geoState = await Geolocator.isLocationServiceEnabled();
+
+    if(!geoState){
+      return Future.error("error");
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:walkoftoday/naviSave.dart';
 
 class MainScreen extends StatefulWidget {
@@ -13,6 +14,16 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  // late NLatLng currentPos;
+  //
+  // getGeoData() async {
+  //   Position pos = await Geolocator.getCurrentPosition();
+  //   setState(() {
+  //     currentPos = NLatLng(pos.latitude, pos.longitude);
+  //   });
+  //   print("현재위치 = $currentPos");
+  // }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -36,9 +47,27 @@ class _MainScreenState extends State<MainScreen> {
           // Container(),
           NaverMap(
             onMapReady: (controller) {
-              NLatLng latlng = new NLatLng(37.5670135, 126.9783740);
-              print("asdasdsad$latlng");
+              final marker = NMarker(
+                id: "currentMarker",
+                position: NLatLng(35.4975017, 128.765285),
+                caption: NOverlayCaption(text: "현재위치")
+              );
+
+              NCircleOverlay circle = NCircleOverlay(
+                id: "radius_clicle",
+                center: NLatLng(35.4975017, 128.765285),
+                radius: 500,
+                color: Color(0x1fA5D6A7),
+                outlineColor: Color(0xff2E7D32),
+                outlineWidth: 0.5
+              );
+
+              controller.addOverlay(marker);
+              controller.addOverlay(circle);
             },
+            options: NaverMapViewOptions(
+              initialCameraPosition: NCameraPosition(target: NLatLng(35.4975017, 128.765285),zoom: 14),
+            ),
           ),
           Align(
               alignment: FractionalOffset(0.5, 0.75),
@@ -66,4 +95,10 @@ class _MainScreenState extends State<MainScreen> {
       );
     }
   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     getGeoData();
+//   }
 }
