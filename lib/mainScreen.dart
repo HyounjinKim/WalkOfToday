@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:walkoftoday/naviSave.dart';
 
 class MainScreen extends StatefulWidget {
   final int cnt;
+  final Function onChange;
 
-  const MainScreen({super.key,required this.cnt});
+  const MainScreen({super.key,required this.cnt,required this.onChange});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -25,11 +27,19 @@ class _MainScreenState extends State<MainScreen> {
     else if(cnt == 2){
       print("설정");
       return Container();
-    }else {
+    }else if(cnt == 99){
+      return Container();
+    }
+    else {
       return Stack(
         children: [
-          Container(),
-          // NaverMap(),
+          // Container(),
+          NaverMap(
+            onMapReady: (controller) {
+              NLatLng latlng = new NLatLng(37.5670135, 126.9783740);
+              print("asdasdsad$latlng");
+            },
+          ),
           Align(
               alignment: FractionalOffset(0.5, 0.75),
               child:TextButton(onPressed: () => {print("경로 생성 중")},
